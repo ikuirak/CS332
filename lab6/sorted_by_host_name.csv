@@ -1,0 +1,9 @@
+id,host_id,host_name,neighbourhood_group,neighbourhood,latitude,longitude,room_type,price,minimum_nights,number_of_reviews,calculated_host_listings_count,availability_365
+5099,7322,Chris,Manhattan,Murray Hill,40.74767,-73.97500,Entire home/apt,200.00,3,74,1,129
+3647,4632,Elisabeth,Manhattan,Harlem,40.80902,-73.94190,Private room,150.00,3,0,1,365
+5121,7356,Garon,Brooklyn,Bedford-Stuyvesant,40.68688,-73.95596,Private room,60.00,45,49,1,0
+2595,2845,Jennifer,Manhattan,Midtown,40.75362,-73.98377,Entire home/apt,225.00,1,45,2,355
+2539,2787,John,Brooklyn,Kensington,40.64749,-73.97237,Private room,149.00,1,9,6,365
+5022,7192,Laura,Manhattan,East Harlem,40.79851,-73.94399,Entire home/apt,80.00,10,9,1,0
+3831,4869,LisaRoxanne,Brooklyn,Clinton Hill,40.68514,-73.95976,Entire home/apt,89.00,1,270,1,194
+5178,8967,Shunichi,Manhattan,Hell's Kitchen,40.76489,-73.98493,Private room,79.00,2,430,1,220
