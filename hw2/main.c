@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "search.h"
+
+Options opts;       /* global options */
+
 int main(int argc, char *argv[]){
     int c, show_attrs = 0, size_set = 0, pattern_set = 0, max_depth = 0;
     long max_size = 0;
@@ -11,16 +15,16 @@ int main(int argc, char *argv[]){
     while ((c = getopt(argc, argv, "Ss:f:")) != -1) {
         switch (c){
         case 's':
-            size_set = 1;
-            max_size = atol(optarg);
+            opts.size_set = 1;
+            opts.max_size = atol(optarg);
             break;
         case 'S':
-            show_attrs = 1;
+            opts.show_attrs = 1;
             break;
         case 'f':
-            pattern_set = 1;
-            pattern = optarg;                   /* first arg */
-            max_depth = atoi(argv[optind]);     /* second arg (grabs manually)*/
+            opts.pattern_set = 1;
+            opts.pattern = optarg;                   /* first arg */
+            opts.max_depth = atoi(argv[optind]);     /* second arg (grabs manually)*/
             optind++;                           
             break;
         default:
@@ -31,9 +35,7 @@ int main(int argc, char *argv[]){
     if (optind < argc)
         start = argv[optind];
 
-    /* temp */
-    printf("start=%s S=%d s=%d(%ld) f=%d(%s,%d)\n",
-            start, show_attrs, size_set, max_size,
-            pattern_set, pattern ? pattern : "-", max_depth);
+    return traverse(start, start, 0, print_name) == -1 ? 1 : 0;
+
     return 0;
 }
