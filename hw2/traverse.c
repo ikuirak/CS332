@@ -12,6 +12,28 @@ static void indent(int depth)
         putchar('\t');
 }
 
+static void mode_to_string(mode_t m, char *buf)
+{
+    buf[0] = (m & S_IRUSR) ? 'r' : '-';
+    buf[1] = (m & S_IWUSR) ? 'w' : '-';
+    buf[2] = (m & S_IXUSR) ? 'x' : '-';
+    buf[3] = (m & S_IRGRP) ? 'r' : '-';
+    buf[4] = (m & S_IWGRP) ? 'w' : '-';
+    buf[5] = (m & S_IXGRP) ? 'x' : '-';
+    buf[6] = (m & S_IROTH) ? 'r' : '-';
+    buf[7] = (m & S_IWOTH) ? 'w' : '-';
+    buf[8] = (m & S_IXOTH) ? 'x' : '-';
+    buf[9] = '\0';
+}
+
+static int check_filters(const char *name, const struct stat *st, int depth)
+{
+    (void)name; (void)depth;             /* used in step 6 */
+    if (opts.size_set && st->st_size > opts.max_size)
+        return 0;
+    return 1;
+}
+
 int print_name(const char *path, const char *name,
                const struct stat *st, int depth)
 {
@@ -41,7 +63,8 @@ int traverse(const char *path, const char *name, int depth, print_fn print)
     }
 
     if (!S_ISDIR(st.st_mode)) {          /* file: just print it */
-        print(path, name, &st, depth);
+        if (check_filters(name, &st, depth))
+            print(path, name, &st, depth);
         return 0;
     }
 
@@ -61,21 +84,6 @@ int traverse(const char *path, const char *name, int depth, print_fn print)
     }
     free(entries);
     return 0;
-}
-
-
-static void mode_to_string(mode_t m, char *buf)
-{
-    buf[0] = (m & S_IRUSR) ? 'r' : '-';
-    buf[1] = (m & S_IWUSR) ? 'w' : '-';
-    buf[2] = (m & S_IXUSR) ? 'x' : '-';
-    buf[3] = (m & S_IRGRP) ? 'r' : '-';
-    buf[4] = (m & S_IWGRP) ? 'w' : '-';
-    buf[5] = (m & S_IXGRP) ? 'x' : '-';
-    buf[6] = (m & S_IROTH) ? 'r' : '-';
-    buf[7] = (m & S_IWOTH) ? 'w' : '-';
-    buf[8] = (m & S_IXOTH) ? 'x' : '-';
-    buf[9] = '\0';
 }
 
 int print_attrs(const char *path, const char *name,
